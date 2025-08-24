@@ -18,7 +18,9 @@ const createNewData = async (req, res) => {
 
 // read 
 const ReadData = async (req, res) => {
-    const getData = await bookModel.find()
+    const pageNumber = req.query.page || 0
+    const numberOfBook = 2
+    const getData = await bookModel.find().skip(numberOfBook * pageNumber).limit(numberOfBook)
     if (getData) {
         res.send(getData)
     }
@@ -61,5 +63,18 @@ const deleteData = async (req, res) => {
     }
 }
 
+// search data
+const searchBook = async (req, res) => {
+    const searchData = await bookModel.find({
+        $or: [
+            {title: {$regex: req.params.key}},
+        ]
+    })
 
-module.exports = { createNewData, ReadData, ReadSingleData, updateData, deleteData}
+    if(searchData){
+        res.send(searchData)
+    }
+}
+
+
+module.exports = { createNewData, ReadData, ReadSingleData, updateData, deleteData, searchBook}

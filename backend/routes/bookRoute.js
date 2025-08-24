@@ -9,5 +9,6 @@ route.get("/read/book", bookController.ReadData)
 route.get("/readSingle/book/:id", bookController.ReadSingleData)
 route.put("/update/book/:id", uploadDocumet.single("img"), bookController.updateData)
 route.delete("/delete/book/:id", bookController.deleteData)
+route.get("/search/book/:key", bookController.searchBook)
 
 module.exports = route
